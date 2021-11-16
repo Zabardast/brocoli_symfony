@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Billing index{% endblock %}
+
+{% block body %}
+    <h1>Billing index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Billing_number</th>
+                <th>Entitled</th>
+                <th>Biling_status</th>
+                <th>Creation_date</th>
+                <th>Payment_deadline</th>
+                <th>Payment_method</th>
+                <th>Time_of_payment</th>
+                <th>Details</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for billing in billings %}
+            <tr>
+                <td>{{ billing.id }}</td>
+                <td>{{ billing.billingNumber }}</td>
+                <td>{{ billing.entitled }}</td>
+                <td>{{ billing.bilingStatus }}</td>
+                <td>{{ billing.creationDate }}</td>
+                <td>{{ billing.paymentDeadline }}</td>
+                <td>{{ billing.paymentMethod }}</td>
+                <td>{{ billing.timeOfPayment }}</td>
+                <td>{{ billing.details }}</td>
+                <td>
+                    <a href="{{ path('billing_show', {'id': billing.id}) }}">show</a>
+                    <a href="{{ path('billing_edit', {'id': billing.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('billing_new') }}">Create new</a>
+{% endblock %}

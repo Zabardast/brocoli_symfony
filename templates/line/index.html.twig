@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Line index{% endblock %}
+
+{% block body %}
+    <h1>Line index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>About</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for line in lines %}
+            <tr>
+                <td>{{ line.id }}</td>
+                <td>{{ line.name }}</td>
+                <td>{{ line.price }}</td>
+                <td>{{ line.quantity }}</td>
+                <td>{{ line.about }}</td>
+                <td>
+                    <a href="{{ path('line_show', {'id': line.id}) }}">show</a>
+                    <a href="{{ path('line_edit', {'id': line.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('line_new') }}">Create new</a>
+{% endblock %}

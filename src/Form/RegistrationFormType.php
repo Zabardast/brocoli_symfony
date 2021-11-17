@@ -5,13 +5,14 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 // use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationFormType extends AbstractType
@@ -22,14 +23,13 @@ class RegistrationFormType extends AbstractType
             ->add('email')
             ->add('nom')
             ->add('prenom')
-            ->add('Date_of_birth')
+            ->add('Date_of_birth', DateTimeType::class)
             ->add('phone_number')
             ->add('turne_over')
-            ->add('taxed_income')
-            ->add('plainPassword', PasswordType::class, [
+            ->add('taxed_income') // display en %
+            ->add('password', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
-                'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
@@ -43,6 +43,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('check_password', PasswordType::class)
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

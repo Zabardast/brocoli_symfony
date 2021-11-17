@@ -8,6 +8,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
@@ -24,47 +26,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotNull(message="field is required for account creation")
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Assert\NotNull(message="field is required for account creation")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\EqualTo(propertyPath="check_password", message="the passwords do not match")
+     * @Assert\NotNull(message="field is required for account creation")
      */
     private $password;
 
     /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     * @Assert\EqualTo(propertyPath="password", message="the passwords do not match")
+     */
+    private $check_password;
+
+    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="field is required for account creation")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="field is required for account creation")
      */
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
+     * @Assert\NotNull(message="field is required for account creation")
      */
     private $Date_of_birth;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="field is required for account creation")
      */
     private $phone_number;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\PositiveOrZero(message="this value must be more than or equal to 0")
+     * @Assert\NotNull(message="field is required for account creation")
      */
     private $turne_over;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\PositiveOrZero(message="this value must be more than or equal to 0")
+     * @Assert\NotNull(message="field is required for account creation")
      */
     private $taxed_income;
 
@@ -137,6 +158,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+        /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getCheckPassword(): string
+    {
+        return $this->check_password;
+    }
+
+    public function setCheckPassword(string $t_password): self
+    {
+        $this->check_password = $t_password;
+
+        return $this;
+    }
+
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
@@ -181,12 +217,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDateOfBirth(): ?string
+    public function getDateOfBirth(): ?\DateTime
     {
         return $this->Date_of_birth;
     }
 
-    public function setDateOfBirth(string $Date_of_birth): self
+    public function setDateOfBirth(\DateTime $Date_of_birth): self
     {
         $this->Date_of_birth = $Date_of_birth;
 

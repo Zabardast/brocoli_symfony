@@ -1,4 +1,4 @@
-{% macro header_template(user_name) %}
+{% macro header_template() %}
 
 <nav class="navbar navbar-dark bg-dark navbar-expand-sm nav-fill">
     <a class="header_logo nav-item" href="{{ path('dashboard') }}">
@@ -17,7 +17,7 @@
                     <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ path('') }}">Edit Profile</a>
+                    <a class="dropdown-item" href="{{ path('user_edit', {'id': app.user.id }) }}">Edit Profile</a>
                     <a class="dropdown-item" href="{{ path('app_logout') }}">Log Out</a>
                 </div>
             </li>   

@@ -14,6 +14,7 @@ class Line
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Billing::class, inversedBy="billing_line_id")
      */
     private $id;
 
@@ -37,10 +38,10 @@ class Line
      */
     private $about;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Billing::class, inversedBy="billing_line_id")
-     */
-    private $lines;
+    // /**
+    //  * @ORM\ManyToOne(targetEntity=Billing::class, inversedBy="billing_line_id")
+    //  */
+    // private $lines;
 
     public function getId(): ?int
     {
@@ -95,15 +96,15 @@ class Line
         return $this;
     }
 
-    public function getLines(): ?Billing
-    {
-        return $this->lines;
-    }
+    // public function getLines(): ?Billing
+    // {
+    //     return $this->lines;
+    // }
 
-    public function setLines(?Billing $lines): self
-    {
-        $this->lines = $lines;
+    // public function setLines(?Billing $lines): self
+    // {
+    //     $this->lines = $lines;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 }

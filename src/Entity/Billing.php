@@ -6,6 +6,7 @@ use App\Repository\BillingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Line;
 
 /**
  * @ORM\Entity(repositoryClass=BillingRepository::class)
@@ -60,7 +61,7 @@ class Billing
     private $details;
 
     /**
-     * @ORM\OneToMany(targetEntity=line::class, mappedBy="lines")
+     * @ORM\OneToMany(targetEntity=line::class, mappedBy="id")
      */
     private $billing_line_id;
 

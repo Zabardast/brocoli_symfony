@@ -65,6 +65,17 @@ class Billing
      */
     private $billing_line_id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="billing")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Project::class, mappedBy="billing", cascade={"persist", "remove"})
+     */
+    private $project;
+
     public function __construct()
     {
         $this->billing_line_id = new ArrayCollection();
@@ -197,6 +208,40 @@ class Billing
                 $billingLineId->setLines(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($project === null && $this->project !== null) {
+            $this->project->setBilling(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($project !== null && $project->getBilling() !== $this) {
+            $project->setBilling($this);
+        }
+
+        $this->project = $project;
 
         return $this;
     }

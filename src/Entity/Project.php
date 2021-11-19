@@ -24,11 +24,6 @@ class Project
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity=customer::class, inversedBy="status", cascade={"persist", "remove"})
-     */
-    private $customer;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $status;
@@ -37,6 +32,17 @@ class Project
      * @ORM\Column(type="string", length=255)
      */
     private $price;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="projects")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $customer;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Billing::class, inversedBy="project", cascade={"persist", "remove"})
+     */
+    private $billing;
 
     public function getId(): ?int
     {
@@ -51,18 +57,6 @@ class Project
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCustomer(): ?customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?customer $customer): self
-    {
-        $this->customer = $customer;
 
         return $this;
     }
@@ -87,6 +81,30 @@ class Project
     public function setPrice(string $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getBilling(): ?Billing
+    {
+        return $this->billing;
+    }
+
+    public function setBilling(?Billing $billing): self
+    {
+        $this->billing = $billing;
 
         return $this;
     }

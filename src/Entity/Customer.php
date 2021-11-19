@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,9 +50,15 @@ class Customer
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity=Project::class, mappedBy="customer", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="customer")
      */
     private $projects;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -129,25 +137,34 @@ class Customer
         return $this;
     }
 
-    public function getprojects(): ?Project
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjects(): Collection
     {
         return $this->projects;
     }
 
-    public function setprojects(?Project $projects): self
+    public function addProject(Project $project): self
     {
-        // unset the owning side of the relation if necessary
-        if ($projects === null && $this->projects !== null) {
-            $this->projects->setCustomer(null);
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->setCustomer($this);
         }
-
-        // set the owning side of the relation if necessary
-        if ($projects !== null && $projects->getCustomer() !== $this) {
-            $projects->setCustomer($this);
-        }
-
-        $this->projects = $projects;
 
         return $this;
     }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getCustomer() === $this) {
+                $project->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

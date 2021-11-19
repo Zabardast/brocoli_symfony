@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -88,6 +90,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotNull(message="field is required for account creation")
      */
     private $taxed_income;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="user")
+     */
+    private $customers;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Billing::class, mappedBy="user")
+     */
+    private $billing;
+
+    public function __construct()
+    {
+        $this->customers = new ArrayCollection();
+        $this->billing = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -261,6 +279,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTaxedIncome(float $taxed_income): self
     {
         $this->taxed_income = $taxed_income;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Customer[]
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customer $customer): self
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+            $customer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): self
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getUser() === $this) {
+                $customer->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Billing[]
+     */
+    public function getBilling(): Collection
+    {
+        return $this->billing;
+    }
+
+    public function addBilling(Billing $billing): self
+    {
+        if (!$this->billing->contains($billing)) {
+            $this->billing[] = $billing;
+            $billing->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilling(Billing $billing): self
+    {
+        if ($this->billing->removeElement($billing)) {
+            // set the owning side to null (unless already changed)
+            if ($billing->getUser() === $this) {
+                $billing->setUser(null);
+            }
+        }
 
         return $this;
     }

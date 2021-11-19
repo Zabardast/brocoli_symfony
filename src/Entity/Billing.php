@@ -76,6 +76,11 @@ class Billing
      */
     private $lineList;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $customer_name;
+
     public function __construct()
     {
         $this->lineList = new ArrayCollection();
@@ -242,6 +247,18 @@ class Billing
                 $lineList->setBilling(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCustomerName(): ?string
+    {
+        return $this->customer_name;
+    }
+
+    public function setCustomerName(string $customer_name): self
+    {
+        $this->customer_name = $customer_name;
 
         return $this;
     }

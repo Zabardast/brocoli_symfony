@@ -92,18 +92,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $taxed_income;
 
     /**
-     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="user")
-     */
-    private $customers;
-
-    /**
      * @ORM\OneToMany(targetEntity=Billing::class, mappedBy="user")
      */
     private $billing;
 
     public function __construct()
     {
-        $this->customers = new ArrayCollection();
         $this->billing = new ArrayCollection();
     }
 
@@ -279,36 +273,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTaxedIncome(float $taxed_income): self
     {
         $this->taxed_income = $taxed_income;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Customer[]
-     */
-    public function getCustomers(): Collection
-    {
-        return $this->customers;
-    }
-
-    public function addCustomer(Customer $customer): self
-    {
-        if (!$this->customers->contains($customer)) {
-            $this->customers[] = $customer;
-            $customer->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCustomer(Customer $customer): self
-    {
-        if ($this->customers->removeElement($customer)) {
-            // set the owning side to null (unless already changed)
-            if ($customer->getUser() === $this) {
-                $customer->setUser(null);
-            }
-        }
 
         return $this;
     }

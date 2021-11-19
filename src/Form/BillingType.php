@@ -6,6 +6,8 @@ use App\Entity\Billing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class BillingType extends AbstractType
 {
@@ -14,11 +16,24 @@ class BillingType extends AbstractType
         $builder
             ->add('billing_number')
             ->add('entitled')
-            ->add('biling_status')
-            ->add('creation_date')
-            ->add('payment_deadline')
-            ->add('payment_method')
-            ->add('time_of_payment')
+            ->add('biling_status', ChoiceType::class, [
+                'choices' => [
+                    'edited' => 'edited',
+                    'sent' => 'sent',
+                    'payed' => 'payed'
+                ]
+            ])
+            ->add('creation_date', DateType::class)
+            ->add('payment_deadline', DateType::class)
+            ->add('payment_method', ChoiceType::class, [
+                'choices' => [
+                    'check' => 'check',
+                    'bank transfer' => 'bank transfer',
+                    'paypal' => 'paypal',
+                    'other' => 'other'
+                ]
+            ])
+            ->add('time_of_payment', DateType::class)
             ->add('details')
         ;
     }

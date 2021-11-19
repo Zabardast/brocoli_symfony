@@ -36,12 +36,12 @@ class Billing
     private $biling_status;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
      */
     private $creation_date;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
      */
     private $payment_deadline;
 
@@ -51,7 +51,7 @@ class Billing
     private $payment_method;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
      */
     private $time_of_payment;
 

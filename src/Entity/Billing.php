@@ -61,11 +61,6 @@ class Billing
     private $details;
 
     /**
-     * @ORM\OneToMany(targetEntity=line::class, mappedBy="id")
-     */
-    private $billing_line_id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="billing")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -76,9 +71,14 @@ class Billing
      */
     private $project;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Line::class, mappedBy="billing")
+     */
+    private $lineList;
+
     public function __construct()
     {
-        $this->billing_line_id = new ArrayCollection();
+        $this->lineList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,36 +182,6 @@ class Billing
         return $this;
     }
 
-    /**
-     * @return Collection|line[]
-     */
-    public function getBillingLineId(): Collection
-    {
-        return $this->billing_line_id;
-    }
-
-    public function addBillingLineId(line $billingLineId): self
-    {
-        if (!$this->billing_line_id->contains($billingLineId)) {
-            $this->billing_line_id[] = $billingLineId;
-            $billingLineId->setLines($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBillingLineId(line $billingLineId): self
-    {
-        if ($this->billing_line_id->removeElement($billingLineId)) {
-            // set the owning side to null (unless already changed)
-            if ($billingLineId->getLines() === $this) {
-                $billingLineId->setLines(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -242,6 +212,36 @@ class Billing
         }
 
         $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Line[]
+     */
+    public function getLineList(): Collection
+    {
+        return $this->lineList;
+    }
+
+    public function addLineList(Line $lineList): self
+    {
+        if (!$this->lineList->contains($lineList)) {
+            $this->lineList[] = $lineList;
+            $lineList->setBilling($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLineList(Line $lineList): self
+    {
+        if ($this->lineList->removeElement($lineList)) {
+            // set the owning side to null (unless already changed)
+            if ($lineList->getBilling() === $this) {
+                $lineList->setBilling(null);
+            }
+        }
 
         return $this;
     }

@@ -38,6 +38,12 @@ class Line
      */
     private $about;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Billing::class, inversedBy="lineList")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $billing;
+
     // /**
     //  * @ORM\ManyToOne(targetEntity=Billing::class, inversedBy="billing_line_id")
     //  */
@@ -96,15 +102,15 @@ class Line
         return $this;
     }
 
-    // public function getLines(): ?Billing
-    // {
-    //     return $this->lines;
-    // }
+    public function getBilling(): ?Billing
+    {
+        return $this->billing;
+    }
 
-    // public function setLines(?Billing $lines): self
-    // {
-    //     $this->lines = $lines;
+    public function setBilling(?Billing $billing): self
+    {
+        $this->billing = $billing;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 }

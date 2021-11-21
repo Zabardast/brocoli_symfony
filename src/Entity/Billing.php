@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\BillingRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 use App\Entity\Line;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BillingRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=BillingRepository::class)
@@ -61,12 +62,6 @@ class Billing
     private $details;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="billing")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-
-    /**
      * @ORM\OneToOne(targetEntity=Project::class, mappedBy="billing", cascade={"persist", "remove"})
      */
     private $project;
@@ -80,6 +75,12 @@ class Billing
      * @ORM\Column(type="string", length=255)
      */
     private $customer_name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="billings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $customer;
 
     public function __construct()
     {
@@ -127,24 +128,24 @@ class Billing
         return $this;
     }
 
-    public function getCreationDate(): ?string
+    public function getCreationDate(): ?DateTime
     {
         return $this->creation_date;
     }
 
-    public function setCreationDate(string $creation_date): self
+    public function setCreationDate(DateTime $creation_date): self
     {
         $this->creation_date = $creation_date;
 
         return $this;
     }
 
-    public function getPaymentDeadline(): ?string
+    public function getPaymentDeadline(): ?DateTime
     {
         return $this->payment_deadline;
     }
 
-    public function setPaymentDeadline(string $payment_deadline): self
+    public function setPaymentDeadline(DateTime $payment_deadline): self
     {
         $this->payment_deadline = $payment_deadline;
 
@@ -163,12 +164,12 @@ class Billing
         return $this;
     }
 
-    public function getTimeOfPayment(): ?string
+    public function getTimeOfPayment(): ?DateTime
     {
         return $this->time_of_payment;
     }
 
-    public function setTimeOfPayment(string $time_of_payment): self
+    public function setTimeOfPayment(DateTime $time_of_payment): self
     {
         $this->time_of_payment = $time_of_payment;
 
@@ -262,4 +263,17 @@ class Billing
 
         return $this;
     }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
 }

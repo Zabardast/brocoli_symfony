@@ -19,6 +19,13 @@ class BillingRepository extends ServiceEntityRepository
         parent::__construct($registry, Billing::class);
     }
 
+
+    public function find_greatest_id()
+    {
+        // $this->createQueryBuilder('m')
+        // ->
+        // ta fait comment olivier?
+    }
     // /**
     //  * @return Billing[] Returns an array of Billing objects
     //  */

@@ -34,8 +34,11 @@ class BillingController extends AbstractController
         $form = $this->createForm(BillingType::class, $billing);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $entityManager = $this->getDoctrine()->getManager();
+            $billing->setCustomerName($billing->getProject()->getName());
+            $billing->setCustomer($billing->getProject()->getCustomer());
             $entityManager->persist($billing);
             $entityManager->flush();
 

@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Billing;
+use App\Entity\Project;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -14,8 +16,12 @@ class BillingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('billing_number')
+            ->add('billing_number', )
             ->add('entitled')
+            ->add('project', EntityType::class, [
+                'class' => Project::class,
+                'choice_label' => 'name',
+            ])
             ->add('biling_status', ChoiceType::class, [
                 'choices' => [
                     'edited' => 'edited',

@@ -27,10 +27,10 @@
                 <td>{{ billing.billingNumber }}</td>
                 <td>{{ billing.entitled }}</td>
                 <td>{{ billing.bilingStatus }}</td>
-                <td>{{ billing.creationDate }}</td>
-                <td>{{ billing.paymentDeadline }}</td>
+                <td>{{ billing.creationDate | date('d-m-Y') }}</td>
+                <td>{{ billing.paymentDeadline | date('d-m-Y') }}</td>
                 <td>{{ billing.paymentMethod }}</td>
-                <td>{{ billing.timeOfPayment }}</td>
+                <td>{{ billing.timeOfPayment | date('d-m-Y') }}</td>
                 <td>{{ billing.details }}</td>
                 <td>
                     <a href="{{ path('billing_show', {'id': billing.id}) }}">show</a>

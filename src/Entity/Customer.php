@@ -54,9 +54,15 @@ class Customer
      */
     private $projects;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Billing::class, mappedBy="customer")
+     */
+    private $billings;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->billings = new ArrayCollection();
     }
 
 
@@ -161,6 +167,36 @@ class Customer
             // set the owning side to null (unless already changed)
             if ($project->getCustomer() === $this) {
                 $project->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Billing[]
+     */
+    public function getBillings(): Collection
+    {
+        return $this->billings;
+    }
+
+    public function addBilling(Billing $billing): self
+    {
+        if (!$this->billings->contains($billing)) {
+            $this->billings[] = $billing;
+            $billing->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilling(Billing $billing): self
+    {
+        if ($this->billings->removeElement($billing)) {
+            // set the owning side to null (unless already changed)
+            if ($billing->getCustomer() === $this) {
+                $billing->setCustomer(null);
             }
         }
 

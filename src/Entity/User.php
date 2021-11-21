@@ -91,11 +91,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $taxed_income;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Billing::class, mappedBy="user")
-     */
-    private $billing;
-
     public function __construct()
     {
         $this->billing = new ArrayCollection();

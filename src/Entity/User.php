@@ -91,6 +91,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $taxed_income;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="user")
+     */
+    private $customer;
+
     public function __construct()
     {
         $this->billing = new ArrayCollection();
@@ -298,6 +303,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $billing->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Customer;
 use App\Form\CustomerType;
 use App\Repository\CustomerRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/customer")
@@ -36,6 +37,12 @@ class CustomerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $customer->setUser($this->getUser());
+            $this->getUser()->addCustomer($customer);
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
+                'id' => $this->getUser()->getId()
+            ]);
+            $entityManager->persist($user);
             $entityManager->persist($customer);
             $entityManager->flush();
 

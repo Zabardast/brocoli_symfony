@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Line;
+use App\Form\LineType;
 use App\Entity\Billing;
 use App\Form\BillingType;
 use App\Repository\BillingRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/billing")
@@ -34,20 +36,36 @@ class BillingController extends AbstractController
         $form = $this->createForm(BillingType::class, $billing);
         $form->handleRequest($request);
 
+        $line = new Line();
+        $lineForm = $this->createForm(LineType::class, $line);
+        $lineForm->handleRequest($request);
+
+        $lines = $billing->getLineList();
+
         if ($form->isSubmitted() && $form->isValid()) 
         {
             $entityManager = $this->getDoctrine()->getManager();
             $billing->setCustomerName($billing->getProject()->getName());
-            $billing->setCustomer($billing->getProject()->getCustomer());
+            $billing->setCustomerId($billing->getProject()->getCustomer()->getId());
             $entityManager->persist($billing);
             $entityManager->flush();
 
             return $this->redirectToRoute('billing_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        if ($lineForm->isSubmitted() && $lineForm->isValid()) 
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $billing->addLineList($line);
+            $entityManager->persist($billing);
+            $entityManager->flush();
+        }
+
         return $this->renderForm('billing/new.html.twig', [
             'billing' => $billing,
             'form' => $form,
+            'lineform' => $lineForm,
+            'lines' => $lines
         ]);
     }
 
@@ -69,15 +87,31 @@ class BillingController extends AbstractController
         $form = $this->createForm(BillingType::class, $billing);
         $form->handleRequest($request);
 
+        $line = new Line();
+        $lineForm = $this->createForm(LineType::class, $line);
+        $lineForm->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('billing_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        if ($lineForm->isSubmitted() && $lineForm->isValid()) 
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $billing->addLineList($line);
+            $entityManager->persist($billing);
+            $entityManager->flush();
+        }
+
+        $lines = $billing->getLineList();
+        // dd($lines);
         return $this->renderForm('billing/edit.html.twig', [
             'billing' => $billing,
             'form' => $form,
+            'lineform' => $lineForm,
+            'lines' => $lines
         ]);
     }
 

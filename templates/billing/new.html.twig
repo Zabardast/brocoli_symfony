@@ -6,6 +6,10 @@
     <h1>Create new Billing</h1>
 
     {{ include('billing/_form.html.twig') }}
+{# 
+    {{ include('line/index.html.twig') }}
+
+    {{ include('line/_form.html.twig') }} #}
 
     <a href="{{ path('billing_index') }}">back to list</a>
 {% endblock %}

@@ -33,7 +33,6 @@
                 <td>{{ billing.timeOfPayment | date('d-m-Y') }}</td>
                 <td>{{ billing.details }}</td>
                 <td>
-                    <a href="{{ path('billing_show', {'id': billing.id}) }}">show</a>
                     <a href="{{ path('billing_edit', {'id': billing.id}) }}">edit</a>
                 </td>
             </tr>

@@ -25,8 +25,8 @@
                 <td>{{ line.quantity }}</td>
                 <td>{{ line.about }}</td>
                 <td>
-                    <a href="{{ path('line_show', {'id': line.id}) }}">show</a>
-                    <a href="{{ path('line_edit', {'id': line.id}) }}">edit</a>
+                    {# <a href="{{ path('line_show', {'id': line.id}) }}">show</a> #}
+                    {# <a href="{{ path('line_edit', {'id': line.id}) }}">edit</a> #}
                 </td>
             </tr>
         {% else %}
@@ -36,6 +36,6 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('line_new') }}">Create new</a>
+    
+    {# <a href="{{ path('line_new') }}">Create new</a> #}
 {% endblock %}

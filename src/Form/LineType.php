@@ -16,7 +16,6 @@ class LineType extends AbstractType
             ->add('price')
             ->add('quantity')
             ->add('about')
-            ->add('lines')
         ;
     }
 

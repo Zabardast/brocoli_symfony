@@ -92,13 +92,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $taxed_income;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="user")
+     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="user")
      */
-    private $customer;
+    private $customers;
 
     public function __construct()
     {
-        $this->billing = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -278,43 +278,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|Billing[]
+     * @return Collection|Customer[]
      */
-    public function getBilling(): Collection
+    public function getCustomers(): Collection
     {
-        return $this->billing;
+        return $this->customers;
     }
 
-    public function addBilling(Billing $billing): self
+    public function addCustomer(Customer $customer): self
     {
-        if (!$this->billing->contains($billing)) {
-            $this->billing[] = $billing;
-            $billing->setUser($this);
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+            $customer->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeBilling(Billing $billing): self
+    public function removeCustomer(Customer $customer): self
     {
-        if ($this->billing->removeElement($billing)) {
+        if ($this->customers->removeElement($customer)) {
             // set the owning side to null (unless already changed)
-            if ($billing->getUser() === $this) {
-                $billing->setUser(null);
+            if ($customer->getUser() === $this) {
+                $customer->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): self
-    {
-        $this->customer = $customer;
 
         return $this;
     }

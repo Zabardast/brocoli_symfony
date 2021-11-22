@@ -67,7 +67,7 @@ class Billing
     private $project;
 
     /**
-     * @ORM\OneToMany(targetEntity=Line::class, mappedBy="billing")
+     * @ORM\OneToMany(targetEntity=Line::class, mappedBy="billing", cascade={"persist", "remove"})
      */
     private $lineList;
 
@@ -77,10 +77,9 @@ class Billing
     private $customer_name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="billings")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer")
      */
-    private $customer;
+    private $customer_id;
 
     public function __construct()
     {
@@ -240,6 +239,16 @@ class Billing
         return $this;
     }
 
+    // public function addLineList(Line $line): self
+    // {
+    //     if (!$this->lineList->contains($line)) {
+    //         $this->lineList->add($line);
+    //         $line->setBilling($this);
+    //     }
+
+    //     return $this;
+    // }
+
     public function removeLineList(Line $lineList): self
     {
         if ($this->lineList->removeElement($lineList)) {
@@ -264,14 +273,14 @@ class Billing
         return $this;
     }
 
-    public function getCustomer(): ?Customer
+    public function getCustomerId(): ?int
     {
-        return $this->customer;
+        return $this->customer_id;
     }
 
-    public function setCustomer(?Customer $customer): self
+    public function setCustomerId(?int $customer_id): self
     {
-        $this->customer = $customer;
+        $this->customer_id = $customer_id;
 
         return $this;
     }

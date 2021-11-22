@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Line;
 use App\Form\LineType;
+use App\Entity\Billing;
 use App\Repository\LineRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/line")
@@ -26,9 +29,9 @@ class LineController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="line_new", methods={"GET","POST"})
+     * @Route("/new/{id_billing}", name="line_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, int $billing_id): Response
     {
         $line = new Line();
         $form = $this->createForm(LineType::class, $line);
@@ -36,6 +39,10 @@ class LineController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $bill = $this->getDoctrine()->getRepository(Billing::class)->findOneBy([
+                'id' => $billing_id
+            ]);
+            $entityManager->persist($bill);
             $entityManager->persist($line);
             $entityManager->flush();
 
@@ -44,7 +51,7 @@ class LineController extends AbstractController
 
         return $this->renderForm('line/new.html.twig', [
             'line' => $line,
-            'form' => $form,
+            'form' => $form
         ]);
     }
 

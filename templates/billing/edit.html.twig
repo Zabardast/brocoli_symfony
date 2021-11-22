@@ -7,6 +7,10 @@
 
     {{ include('billing/_form.html.twig', {'button_label': 'Update'}) }}
 
+    {{ include('line/index.html.twig') }}
+
+    {{ include('line/_form.html.twig') }}
+
     <a href="{{ path('billing_index') }}">back to list</a>
 
     {{ include('billing/_delete_form.html.twig') }}

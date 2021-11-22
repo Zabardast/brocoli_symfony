@@ -44,11 +44,6 @@ class Line
      */
     private $billing;
 
-    // /**
-    //  * @ORM\ManyToOne(targetEntity=Billing::class, inversedBy="billing_line_id")
-    //  */
-    // private $lines;
-
     public function getId(): ?int
     {
         return $this->id;

@@ -55,20 +55,13 @@ class Customer
     private $projects;
 
     /**
-     * @ORM\OneToMany(targetEntity=Billing::class, mappedBy="customer")
-     */
-    private $billings;
-
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="customer")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="customers")
      */
     private $user;
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
-        $this->billings = new ArrayCollection();
-        $this->user = new ArrayCollection();
     }
 
 
@@ -179,62 +172,14 @@ class Customer
         return $this;
     }
 
-    /**
-     * @return Collection|Billing[]
-     */
-    public function getBillings(): Collection
-    {
-        return $this->billings;
-    }
-
-    public function addBilling(Billing $billing): self
-    {
-        if (!$this->billings->contains($billing)) {
-            $this->billings[] = $billing;
-            $billing->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBilling(Billing $billing): self
-    {
-        if ($this->billings->removeElement($billing)) {
-            // set the owning side to null (unless already changed)
-            if ($billing->getCustomer() === $this) {
-                $billing->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function setUser(?User $user): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getCustomer() === $this) {
-                $user->setCustomer(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }

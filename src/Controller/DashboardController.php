@@ -26,36 +26,53 @@ class DashboardController extends AbstractController
         // Total : €0.00
         // Reste à faire : €560,000.00
         // Plafond : €560,000.00
+        $cap = 0;
+        $pea = 0;
 
         //get client list
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
             'id' => $this->getUser()->getId()
         ]);
-        // dd($customers);
+        
 
         foreach($user->getCustomers() as $customer)
         {
-            // $projects->add($customer->getProjects());
-            // array_push($projects, $customer->getProjects());
-        }
-        // dd($customer->getProjects());
-        // dd($projects);
-        // dd(sizeof($projects));
-        // if(count($projects) > 0)
-        {
-            // foreach($projects as $project)
+            // dd($customer);
+            $billings = $this->getDoctrine()->getRepository(Billing::class)->findBillingByCustomerId($customer->getId(), true);
+            // dd($billings);
+            foreach($billings as $bill)
             {
-                // maybe try to get the real object or an entity with wich you could get this data?
-                // array_push($billings, $project->getBilling());
+                // dd($bill->getBilingStatus());
+                if($bill->getBilingStatus() == 'payed')
+                {
+                    // dd($bill);
+                    $cap += $bill->getPrice();
+                }
+
+                if($bill->getBilingStatus() == 'sent')
+                {
+                    $pea += $bill->getPrice();
+                }
+
             }
-            // dd($projects);
+
+            //     //yearly ca
+                
+            //     //expected payements
+
+            //     //edited billings not sent
+
+            //     //ca max set in user config
+
+            //     //delta to yearly ca
+            // }
         }
-
-
+        
         //link that data to the twig
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
-            // 'CApayed' => 
+            'CApayed' => $cap,
+            'ExpPayement' => $pea
         ]);
     }
 }

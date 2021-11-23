@@ -26,7 +26,7 @@ class ProjectType extends AbstractType
                     'annulé' => "annulé",
                 ],
             ])
-            ->add('price')
+            // ->add('price')
             ->add('customer', EntityType::class, [
                 'class' => Customer::class,
                 'choice_label' => 'name',

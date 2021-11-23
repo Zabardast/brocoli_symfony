@@ -13,6 +13,7 @@
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>About</th>
+                <th>full price</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -24,9 +25,9 @@
                 <td>{{ line.price }}</td>
                 <td>{{ line.quantity }}</td>
                 <td>{{ line.about }}</td>
+                <td>{{ line.price * line.quantity }}</td>
                 <td>
-                    {# <a href="{{ path('line_show', {'id': line.id}) }}">show</a> #}
-                    {# <a href="{{ path('line_edit', {'id': line.id}) }}">edit</a> #}
+                    <a href="{{ path('line_delete', {'id': line.id, 'billing_id': app.request.get('id')}) }}">delete</a>
                 </td>
             </tr>
         {% else %}

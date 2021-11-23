@@ -86,16 +86,26 @@ class LineController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="line_delete", methods={"POST"})
+     * @Route("/{id}/{billing_id}", name="line_delete", methods={"GET"})
      */
-    public function delete(Request $request, Line $line): Response
+    public function delete(Line $line, int $billing_id): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$line->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($line);
             $entityManager->flush();
-        }
 
-        return $this->redirectToRoute('line_index', [], Response::HTTP_SEE_OTHER);
+            $billing = $this->getDoctrine()->getRepository(Billing::class)->findOneBy([
+                'id' => $billing_id
+            ]);
+
+            //remove line from billing
+            $billing->removeLineList($line);
+
+            //substract price from billing
+            $billing->setPrice($billing->getPrice() - ($line->getPrice() * $line->getQuantity()));
+            $this->getDoctrine()->getManager()->flush();
+
+
+        return $this->redirectToRoute('billing_edit', ['id' => $billing_id  ], Response::HTTP_SEE_OTHER);
     }
 }

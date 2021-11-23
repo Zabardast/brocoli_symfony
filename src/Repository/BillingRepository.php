@@ -20,12 +20,24 @@ class BillingRepository extends ServiceEntityRepository
     }
 
 
-    public function find_greatest_id()
+    public function findBillingByCustomerId(int $c_id, bool $only_payed = false)
     {
-        // $this->createQueryBuilder('m')
-        // ->
-        // ta fait comment olivier?
+        $qd = $this->createQueryBuilder('b')
+            ->where('b.customer_id = :customer_id' )
+            ->setParameter('customer_id', $c_id);
+
+        if($only_payed)
+        {
+            $qd->andWhere('b.biling_status = :payed');
+            $qd->setParameter('payed', "payed");
+        }
+
+        $query = $qd->getQuery();
+
+        return $query->execute();
     }
+
+
     // /**
     //  * @return Billing[] Returns an array of Billing objects
     //  */

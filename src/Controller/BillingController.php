@@ -41,7 +41,7 @@ class BillingController extends AbstractController
         $lineForm->handleRequest($request);
 
         $lines = $billing->getLineList();
-
+        dd("hw");
         if ($form->isSubmitted() && $form->isValid()) 
         {
             $entityManager = $this->getDoctrine()->getManager();
@@ -51,14 +51,6 @@ class BillingController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('billing_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        if ($lineForm->isSubmitted() && $lineForm->isValid()) 
-        {
-            $entityManager = $this->getDoctrine()->getManager();
-            $billing->addLineList($line);
-            $entityManager->persist($billing);
-            $entityManager->flush();
         }
 
         return $this->renderForm('billing/new.html.twig', [
@@ -101,17 +93,18 @@ class BillingController extends AbstractController
         {
             $entityManager = $this->getDoctrine()->getManager();
             $billing->addLineList($line);
+            $billing->setPrice($billing->getPrice() + ($line->getPrice() * $line->getQuantity()));
             $entityManager->persist($billing);
             $entityManager->flush();
         }
 
         $lines = $billing->getLineList();
-        // dd($lines);
+
         return $this->renderForm('billing/edit.html.twig', [
             'billing' => $billing,
             'form' => $form,
             'lineform' => $lineForm,
-            'lines' => $lines
+            'lines' => $lines,
         ]);
     }
 

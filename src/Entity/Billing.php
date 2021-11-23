@@ -81,6 +81,11 @@ class Billing
      */
     private $customer_id;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $price;
+
     public function __construct()
     {
         $this->lineList = new ArrayCollection();
@@ -281,6 +286,18 @@ class Billing
     public function setCustomerId(?int $customer_id): self
     {
         $this->customer_id = $customer_id;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

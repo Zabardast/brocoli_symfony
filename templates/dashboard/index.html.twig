@@ -10,11 +10,15 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      card ca // to remove
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p>chiffre d affaire paye : {{ CApayed }}</p>
+            <h5 class="card-title">Chiffre d'affaire</h5>
+            <p>Chiffre d affaire paye : {{ CApayed }}</p>
+            <p>Paiements en attente : {{ ExpPayement }}</p>
+            <p>a facturer : {{ editer }}</p>
+            <p>Total : {{ CApayed + ExpPayement + editer}}</p>
+            <p>Reste a faire : {{ turne_over - ExpPayement }}</p>
+            <p>Plafond : {{ turne_over }}</p>
         </div>
       </div>
     </div>
@@ -24,10 +28,9 @@
   </div>
   <div class="row">
     <div class="col">
-      card cs // to remove
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
+            <h5 class="card-title">Charges Sociales</h5>
             <p>a bunch of data</p>
         </div>
       </div>

@@ -41,7 +41,7 @@ class BillingController extends AbstractController
         $lineForm->handleRequest($request);
 
         $lines = $billing->getLineList();
-        dd("hw");
+        
         if ($form->isSubmitted() && $form->isValid()) 
         {
             $entityManager = $this->getDoctrine()->getManager();
@@ -105,6 +105,7 @@ class BillingController extends AbstractController
             'form' => $form,
             'lineform' => $lineForm,
             'lines' => $lines,
+            'user' => $user
         ]);
     }
 

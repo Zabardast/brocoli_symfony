@@ -28,6 +28,7 @@ class DashboardController extends AbstractController
         // Plafond : €560,000.00
         $cap = 0;
         $pea = 0;
+        $edi = 0;
 
         //get client list
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
@@ -54,25 +55,25 @@ class DashboardController extends AbstractController
                     $pea += $bill->getPrice();
                 }
 
+                if($bill->getBilingStatus() == 'edited')
+                {
+                    $edi += $bill->getPrice();
+                }
+
             }
-
-            //     //yearly ca
-                
-            //     //expected payements
-
-            //     //edited billings not sent
-
-            //     //ca max set in user config
-
-            //     //delta to yearly ca
-            // }
+            
+            //user info
+            $user = $this->getUser();
+            // dd($user);
         }
         
         //link that data to the twig
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
             'CApayed' => $cap,
-            'ExpPayement' => $pea
+            'ExpPayement' => $pea,
+            'editer' => $edi,
+            'turne_over' => $user->getTurneOver()
         ]);
     }
 }

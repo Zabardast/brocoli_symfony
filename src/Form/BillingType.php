@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\Billing;
 use App\Entity\Project;
+use App\Repository\ProjectRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,6 +15,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class BillingType extends AbstractType
 {
+
+    private $security;
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -20,6 +29,9 @@ class BillingType extends AbstractType
             ->add('entitled')
             ->add('project', EntityType::class, [
                 'class' => Project::class,
+                'query_builder' => function (ProjectRepository $repo){
+                    return $repo->getUserProject($this->security->getUser());
+                },
                 'choice_label' => 'name',
             ])
             ->add('biling_status', ChoiceType::class, [

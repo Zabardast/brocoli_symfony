@@ -4,14 +4,22 @@ namespace App\Form;
 
 use App\Entity\Project;
 use App\Entity\Customer;
+use App\Repository\CustomerRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ProjectType extends AbstractType
 {
+    private $security;
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -29,6 +37,9 @@ class ProjectType extends AbstractType
             // ->add('price')
             ->add('customer', EntityType::class, [
                 'class' => Customer::class,
+                'query_builder' => function (CustomerRepository $repo){
+                    return $repo->getUserCustomer($this->security->getUser());
+                },
                 'choice_label' => 'name',
             ])
         ;

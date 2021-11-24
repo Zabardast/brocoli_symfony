@@ -28,6 +28,7 @@ class BillingRepository extends ServiceEntityRepository
 
         if($only_payed)
         {
+            dd("only_payed is on");
             $qd->andWhere('b.biling_status = :payed');
             $qd->setParameter('payed', "payed");
         }

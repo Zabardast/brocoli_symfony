@@ -33,7 +33,7 @@ class DashboardController extends AbstractController
         foreach($user->getCustomers() as $customer)
         {
             // dd($customer);
-            $billings = $this->getDoctrine()->getRepository(Billing::class)->findBillingByCustomerId($customer->getId(), true);
+            $billings = $this->getDoctrine()->getRepository(Billing::class)->findBillingByCustomerId($customer->getId());
             // dd($billings);
             foreach($billings as $bill)
             {
@@ -43,7 +43,7 @@ class DashboardController extends AbstractController
                     // dd($bill);
                     $cap += $bill->getPrice();
                 }
-                dd($bill->getBilingStatus());
+                // dd($bill->getBilingStatus());
                 if($bill->getBilingStatus() == 'sent')
                 {
                     $pea += $bill->getPrice();

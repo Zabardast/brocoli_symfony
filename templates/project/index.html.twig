@@ -11,7 +11,9 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Status</th>
+                {# {% if project.billing != null %} #}
                 <th>billing</th>
+                {# {% endif %} #}
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,8 +24,15 @@
                 <td>{{ project.name }}</td>
                 <td>{{ project.status }}</td>
                 <td>{{ project.price }}
+                {% if project.billing != null %}
+                <td>
                     <a href="{{ path('billing_show', {'id': project.billing.id}) }}">billing</a>
                 </td>
+                {% else %}
+                <td>
+                    no billing for the project
+                </td>
+                {% endif %}
                 <td>
                     <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
                     <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>

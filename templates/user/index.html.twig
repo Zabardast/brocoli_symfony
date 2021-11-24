@@ -11,8 +11,6 @@
                 <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Password</th>
-                <th>Check_password</th>
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Date_of_birth</th>
@@ -28,8 +26,8 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.checkPassword }}</td>
+                {# <td>{{ user.password }}</td> #}
+                {# <td>{{ user.checkPassword }}</td> #}
                 <td>{{ user.nom }}</td>
                 <td>{{ user.prenom }}</td>
                 <td>{{ user.DateOfBirth ? user.DateOfBirth|date('Y-m-d H:i:s') : '' }}</td>

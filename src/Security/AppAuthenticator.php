@@ -50,6 +50,11 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
+        // dd($this->getUser());
+        // if ($this->getUser())
+        // {
+
+        // }
         // For example:
         // return new RedirectResponse($this->urlGenerator->generate('app_register'));
         return new RedirectResponse($this->urlGenerator->generate('dashboard'));

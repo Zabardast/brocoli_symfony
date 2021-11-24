@@ -11,7 +11,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Status</th>
-                <th>Price</th>
+                <th>billing</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,7 +21,9 @@
                 <td>{{ project.id }}</td>
                 <td>{{ project.name }}</td>
                 <td>{{ project.status }}</td>
-                <td>{{ project.price }}</td>
+                <td>{{ project.price }}
+                    <a href="{{ path('billing_show', {'id': project.billing.id}) }}">billing</a>
+                </td>
                 <td>
                     <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
                     <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>

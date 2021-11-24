@@ -25,11 +25,11 @@
             </tr>
             <tr>
                 <th>Creation_date</th>
-                <td>{{ billing.creationDate }}</td>
+                <td>{{ billing.creationDate | date('d-m-Y') }}</td>
             </tr>
             <tr>
                 <th>Payment_deadline</th>
-                <td>{{ billing.paymentDeadline }}</td>
+                <td>{{ billing.paymentDeadline | date('d-m-Y') }}</td>
             </tr>
             <tr>
                 <th>Payment_method</th>
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <th>Time_of_payment</th>
-                <td>{{ billing.timeOfPayment }}</td>
+                <td>{{ billing.timeOfPayment | date('d-m-Y') }}</td>
             </tr>
             <tr>
                 <th>Details</th>

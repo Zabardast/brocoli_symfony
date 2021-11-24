@@ -13,12 +13,12 @@
       <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">Chiffre d'affaire</h5>
-            <p>Chiffre d affaire paye : {{ CApayed }}</p>
-            <p>Paiements en attente : {{ ExpPayement }}</p>
-            <p>a facturer : {{ editer }}</p>
-            <p>Total : {{ CApayed + ExpPayement + editer}}</p>
-            <p>Reste a faire : {{ turne_over - ExpPayement }}</p>
-            <p>Plafond : {{ turne_over }}</p>
+            <p>Chiffre d affaire paye : &euro;{{ CApayed }}&euro;</p>
+            <p>Paiements en attente : {{ ExpPayement }}&euro;</p>
+            <p>a facturer : {{ editer }}&euro;</p>
+            <p>Total : {{ CApayed + ExpPayement + editer}}&euro;</p>
+            <p>Reste a faire : {{ turne_over - ExpPayement }}&euro;</p>
+            <p>Plafond : {{ turne_over }}&euro;</p>
         </div>
       </div>
     </div>
@@ -31,11 +31,11 @@
       <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">Charges Sociales</h5>
-            <p>chiffre d affaire paye {{ CApayed }}</p>
-            <p>Taux {{ taux }}</p>
-            <p>Montant a payer {{ CApayed * ( taux / 100 ) }}</p>
-            <p>chiffre d affaire estime {{ CApayed }}</p>
-            <p>montant a payer estime {{ CApayed * ( taux / 100 ) }}</p>
+            <p>chiffre d affaire paye {{ CApayed }}&euro;</p>
+            <p>Taux {{ taux }}&euro;%</p>
+            <p>Montant a payer {{ CApayed * ( taux / 100 ) }}&euro;</p>
+            <p>chiffre d affaire estime {{ CApayed }}&euro;</p>
+            <p>montant a payer estime {{ CApayed * ( taux / 100 ) }}&euro;</p>
         </div>
       </div>
     </div>

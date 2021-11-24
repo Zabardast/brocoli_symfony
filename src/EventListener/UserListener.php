@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\Event\LifecycleEventArgs as EventLifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-class DoctrineListener
+class UserListener
 {
     private $security;
     // private $repo;
@@ -24,16 +24,13 @@ class DoctrineListener
         $entity = $args->getObject();
 
         // timestampable method
-        if(!method_exists($entity, 'getBillingNumber')) 
+        if(!method_exists($entity, 'getUser') || !method_exists($entity, 'setUser')) 
         {
         return;
         }
         //then the entity is billing before persiste
-
+        $entity->setUser($this->security->getUser());
         $entityManager = $args->getObjectManager();
-        // $entityManager->getRepository(Billing::class)->findLastBillingId();
-        // ... do something with the Product
-        //get higest id from billing
     }
 }
 ?>

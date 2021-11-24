@@ -86,6 +86,11 @@ class Billing
      */
     private $price;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="billings")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->lineList = new ArrayCollection();
@@ -243,16 +248,6 @@ class Billing
 
         return $this;
     }
-
-    // public function addLineList(Line $line): self
-    // {
-    //     if (!$this->lineList->contains($line)) {
-    //         $this->lineList->add($line);
-    //         $line->setBilling($this);
-    //     }
-
-    //     return $this;
-    // }
 
     public function removeLineList(Line $lineList): self
     {

@@ -23,7 +23,7 @@ class BillingController extends AbstractController
     public function index(BillingRepository $billingRepository): Response
     {
         return $this->render('billing/index.html.twig', [
-            'billings' => $billingRepository->findAll(),
+            'billings' => $billingRepository->findBy(['user'=>$this->getUser()]),
         ]);
     }
 
@@ -99,6 +99,8 @@ class BillingController extends AbstractController
         }
 
         $lines = $billing->getLineList();
+
+        $user = $this->getUser();
 
         return $this->renderForm('billing/edit.html.twig', [
             'billing' => $billing,

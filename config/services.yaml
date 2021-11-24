@@ -23,5 +23,9 @@ services:
     App\EventListener\DoctrineListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist, method: prePersist }
+
+    App\EventListener\UserListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist, method: prePersist }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

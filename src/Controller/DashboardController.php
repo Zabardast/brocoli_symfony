@@ -19,13 +19,7 @@ class DashboardController extends AbstractController
      */
     public function index(CustomerRepository $customerRepository): Response
     {
-        //wee need to get the data to display
-        // Chiffre d'affaire payé : €0.00
-        // Paiements en attente : €0.00
-        // A facturer : €0.00
-        // Total : €0.00
-        // Reste à faire : €560,000.00
-        // Plafond : €560,000.00
+
         $cap = 0;
         $pea = 0;
         $edi = 0;
@@ -49,7 +43,7 @@ class DashboardController extends AbstractController
                     // dd($bill);
                     $cap += $bill->getPrice();
                 }
-
+                dd($bill->getBilingStatus());
                 if($bill->getBilingStatus() == 'sent')
                 {
                     $pea += $bill->getPrice();
@@ -61,10 +55,9 @@ class DashboardController extends AbstractController
                 }
 
             }
-            
+
             //user info
-            $user = $this->getUser();
-            // dd($user);
+            // $user = $this->getUser();
         }
         
         //link that data to the twig
@@ -73,7 +66,8 @@ class DashboardController extends AbstractController
             'CApayed' => $cap,
             'ExpPayement' => $pea,
             'editer' => $edi,
-            'turne_over' => $user->getTurneOver()
+            'turne_over' => $user->getTurneOver(),
+            'taux' => $user->getTaxedIncome()
         ]);
     }
 }

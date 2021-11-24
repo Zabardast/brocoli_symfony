@@ -39,9 +39,9 @@ class BillingRepository extends ServiceEntityRepository
 
     public function findLastBillingId()
     {
-        $qd = $this->getDoctrine()->getManager()->createQuery(
-            'SELECT b FROM Billing:class'
-        );
+        // $qd = $this->getDoctrine()->getManager()->createQuery(
+        //     'SELECT b FROM Billing:class'
+        // );
 
         dd($qd->getResult());
         $query = $qd->getQuery();

@@ -31,7 +31,11 @@
       <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">Charges Sociales</h5>
-            <p>a bunch of data</p>
+            <p>chiffre d affaire paye {{ CApayed }}</p>
+            <p>Taux {{ taux }}</p>
+            <p>Montant a payer {{ CApayed * ( taux / 100 ) }}</p>
+            <p>chiffre d affaire estime {{ CApayed }}</p>
+            <p>montant a payer estime {{ CApayed * ( taux / 100 ) }}</p>
         </div>
       </div>
     </div>
